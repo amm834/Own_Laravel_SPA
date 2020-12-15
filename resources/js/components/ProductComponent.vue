@@ -5,10 +5,10 @@
         <div class="col-md-4 mb-3">
           <button class="btn btn-success" @click="create()">Create</button>
         </div>
-        <form class="col-md-8">
+        <form class="col-md-8" @submit.prevent="view">
           <div class="input-group mb-3">
-            <input type="text" class="form-control rounded-0" placeholder="Search Products">
-            <span class="input-group-text rounded-0">Search</span>
+            <input type="text" class="form-control rounded-0" placeholder="Search Products" v-model="searchData">
+            <button class="input-group-text rounded-0" type="submit">Search</button>
           </div>
 
         </form>
@@ -56,7 +56,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="product in products">
+              <tr v-for="product in products.data">
                 <th scope="row">{{ product.id }}</th>
                 <td>{{ product.name }}</td>
                 <td>{{ product.price }}$</td>
@@ -72,6 +72,7 @@
         </div>
       </div>
     </div>
+    <pagination :data="products" @pagination-change-page="view"></pagination>
   </div>
 </template>
 
@@ -81,19 +82,20 @@
     name: 'ProductComponent',
     data() {
       return {
-        products: [],
+        products: {},
         product: new Form({
           id: '',
           name: '',
           price: ''
         }),
-        isEditMode:false
+        isEditMode:false,
+        searchData:''
       }
     },
     methods: {
-      view() {
+      view(page = 1) {
         /* Get All Data */
-        axios.get('/api/products')
+        axios.get('/api/products?page='+page+'&search='+this.searchData)
         .then(response=> {
           this.products = response.data;
         })
@@ -134,6 +136,7 @@
           this.view();
         })
       }
+      ,
     },
     created() {
       this.view();
