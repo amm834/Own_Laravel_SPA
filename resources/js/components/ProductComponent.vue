@@ -37,8 +37,8 @@
                 <has-error :form="product" field="price"></has-error>
               </div>
               <button class="btn btn-success" type="submit">
-               {{ isEditMode ? 'Update' : 'Save' }}
-                </button>
+                {{ isEditMode ? 'Update' : 'Save' }}
+              </button>
             </form>
           </div>
         </div>
@@ -88,8 +88,8 @@
           name: '',
           price: ''
         }),
-        isEditMode:false,
-        searchData:''
+        isEditMode: false,
+        searchData: ''
       }
     },
     methods: {
@@ -102,11 +102,11 @@
           this.products = response.data;
           this.$Progress.stop();
         })
-        .catch(errors=>{
+        .catch(errors=> {
           this.$Progress.fail()
         })
       },
-      create(){
+      create() {
         this.isEditMode = false;
         this.product.reset();
       },
@@ -121,28 +121,57 @@
           };
           console.log(response.data)
         })
-      }
-      ,
-      edit(product){
+      },
+      edit(product) {
         this.isEditMode = true;
         this.product.fill(product);
         this.product.clear();
       },
-      update(){
+      update() {
         this.product.put(`/api/products/${this.product.id}`)
-        .then(response=>{
+        .then(response=> {
           this.view();
           console.log(response.data)
         })
-      }
-      ,
-      destroy(id){
-        axios.delete(`/api/products/${id}`)
-        .then(response=>{
-          this.view();
+      },
+      destroy(id) {
+
+        Swal.fire({
+          title: 'Are you sure?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Delete Data When Confirm is true
+            axios.delete(`/api/products/${id}`)
+            .then(response=> {
+              this.view();
+            });
+            Swal.fire(
+              'Deleted!',
+              'success'
+            )
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+            Toast.fire({
+              icon: 'success',
+              title: 'Deleted successfully'
+            })
+          }
         })
-      }
-      ,
+      },
     },
     created() {
       this.view();

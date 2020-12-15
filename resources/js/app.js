@@ -20,14 +20,14 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 import { Form, HasError, AlertError } from 'vform'
-
+import Swal from 'sweetalert2';
 import VueProgressBar from 'vue-progressbar';
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
   height: '2px',
   thickness:'5px'
-})
+});
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
@@ -41,6 +41,7 @@ Vue.component('product-component', require('./components/ProductComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
  window.Form = Form;
+ window.Swal = Swal;
 const app = new Vue({
     el: '#app',
 });
