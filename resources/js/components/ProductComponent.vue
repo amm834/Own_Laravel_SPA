@@ -94,10 +94,16 @@
     },
     methods: {
       view(page = 1) {
+        // Start Progress Bar
+        this.$Progress.start();
         /* Get All Data */
         axios.get('/api/products?page='+page+'&search='+this.searchData)
         .then(response=> {
           this.products = response.data;
+          this.$Progress.stop();
+        })
+        .catch(errors=>{
+          this.$Progress.fail()
         })
       },
       create(){

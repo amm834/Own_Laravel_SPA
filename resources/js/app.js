@@ -21,7 +21,13 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 import { Form, HasError, AlertError } from 'vform'
 
-import VueProgressBar from 'vue-progressbar'
+import VueProgressBar from 'vue-progressbar';
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '2px',
+  thickness:'5px'
+})
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
