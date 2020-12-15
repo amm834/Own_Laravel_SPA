@@ -22,6 +22,8 @@ window.Vue = require('vue');
 import { Form, HasError, AlertError } from 'vform'
 import Swal from 'sweetalert2';
 import VueProgressBar from 'vue-progressbar';
+import Loading from 'vue-loading-overlay';
+Vue.use(Loading);
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
@@ -42,6 +44,7 @@ Vue.component('product-component', require('./components/ProductComponent.vue').
  */
  window.Form = Form;
  window.Swal = Swal;
+ window.Loading = Loading;
 const app = new Vue({
     el: '#app',
 });

@@ -89,11 +89,15 @@
           price: ''
         }),
         isEditMode: false,
-        searchData: ''
+        searchData: '',
+        fullPage: true
       }
     },
     methods: {
       view(page = 1) {
+        // Load Spinner
+        let loader = this.$loading.show({
+        });
         // Start Progress Bar
         this.$Progress.start();
         /* Get All Data */
@@ -101,9 +105,11 @@
         .then(response=> {
           this.products = response.data;
           this.$Progress.stop();
+          loader.hide();
         })
         .catch(errors=> {
-          this.$Progress.fail()
+          this.$Progress.fail();
+          loader.hide();
         })
       },
       create() {
